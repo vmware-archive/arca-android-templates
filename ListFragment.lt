@@ -19,13 +19,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CursorAdapter;
 import android.widget.Toast;
 
-import com.arca.adapters.Binding;
-import com.arca.adapters.ModernCursorAdapter;
-import com.arca.dispatcher.Error;
-import com.arca.dispatcher.Query;
-import com.arca.dispatcher.QueryResult;
-import com.arca.fragments.ArcaAdapterFragment;
-import com.arca.monitor.ArcaDispatcher;
+import io.pivotal.arca.adapters.Binding;
+import io.pivotal.arca.adapters.ModernCursorAdapter;
+import io.pivotal.arca.dispatcher.Error;
+import io.pivotal.arca.dispatcher.Query;
+import io.pivotal.arca.dispatcher.QueryResult;
+import io.pivotal.arca.fragments.ArcaAdapterFragment;
+import io.pivotal.arca.monitor.ArcaDispatcher;
 import {{$package}}.R;
 import {{$package}}.binders.{{titlecase .Name}}ListViewBinder;
 import {{$package}}.datasets.{{titlecase .Name}}Table;
@@ -142,8 +142,8 @@ import android.database.Cursor;
 import android.view.View;
 import android.widget.TextView;
 
-import com.arca.adapters.Binding;
-import com.arca.adapters.ViewBinder;
+import io.pivotal.arca.adapters.Binding;
+import io.pivotal.arca.adapters.ViewBinder;
 
 public class {{titlecase .Name}}ListViewBinder implements ViewBinder {
 
@@ -168,10 +168,10 @@ import android.content.Context;
 import android.net.Uri;
 
 import {{$package}}.operations.Get{{titlecase .Name}}ListOperation;
-import com.arca.dispatcher.Query;
-import com.arca.dispatcher.QueryResult;
-import com.arca.monitor.RequestMonitor.AbstractRequestMonitor;
-import com.arca.service.OperationService;
+import io.pivotal.arca.dispatcher.Query;
+import io.pivotal.arca.dispatcher.QueryResult;
+import io.pivotal.arca.monitor.RequestMonitor.AbstractRequestMonitor;
+import io.pivotal.arca.service.OperationService;
 
 public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 
@@ -248,15 +248,15 @@ public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 </LinearLayout>
 <<levo>>
 {{end}}
-<<levo filename:arca-fragments-v1.0-beta.jar directory:libs>>
-{{template "arca-fragments-v1.0-beta.jar"}}
+<<levo filename:arca-fragments-1.0.0-beta.jar directory:libs>>
+{{template "arca-fragments-1.0.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-adapters-v1.0-beta.jar directory:libs>>
-{{template "arca-adapters-v1.0-beta.jar"}}
+<<levo filename:arca-adapters-1.0.0-beta.jar directory:libs>>
+{{template "arca-adapters-1.0.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-monitor-v1.0-beta.jar directory:libs>>
-{{template "arca-monitor-v1.0-beta.jar"}}
+<<levo filename:arca-monitor-1.0.0-beta.jar directory:libs>>
+{{template "arca-monitor-1.0.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-dispatcher-v1.0-beta.jar directory:libs>>
-{{template "arca-dispatcher-v1.0-beta.jar"}}
+<<levo filename:arca-dispatcher-1.0.0-beta.jar directory:libs>>
+{{template "arca-dispatcher-1.0.0-beta.jar"}}
 <<levo>>

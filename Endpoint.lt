@@ -62,7 +62,7 @@ package {{$package}}.models;
 
 {{if hasListType .}}import java.util.List;{{end}}!>
 
-import com.arca.provider.ColumnName;
+import io.pivotal.arca.provider.ColumnName;
 import {{$package}}.datasets.{{titlecase .Name}}Table.ColumnNames;
 import com.google.gson.annotations.SerializedName;
 
