@@ -4,21 +4,27 @@ These templates are to be used in conjunction with the [arca android](https://gi
 
 Try running the following commands to see them in action:
 
-```mkdir android && cd android```
+Create your android application:
 
-```levo -k com.my.package -p MyProject -t github.com/cfmobile/arca-android-templates -m "User id:long name:string age:int";```
+```bash
+mkdir android && cd android
 
-```cd ..```
+levo -t github.com/cfmobile/arca-android-templates -m "User id:long name:string age:int"
+```
 
-```mkdir rails && cd rails```
+If you don't yet have an api create a basic rails app:
 
-```levo -k com.my.package -p MyProject -t github.com/cfmobile/rails-scaffold-templates -m "User id:long name:string age:int";```
+```bash
+mkdir rails && cd rails
 
-```rails new my_project -m my_project.rb;```
+levo -p MyProject -t github.com/cfmobile/rails-scaffold-templates -m "User id:long name:string age:int"
 
-```cd my_project && rails s;```
+rails new my_project -m my_project.rb
 
-Next go to `localhost:3030/users` and add a few sample users.
+cd my_project && rails s
+```
+
+Next go to `localhost:3000/users` and add a few sample users;
 
 Finally load up your android application and watch it fetch your user list. 
 
