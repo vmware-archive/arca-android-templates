@@ -248,15 +248,15 @@ public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 </LinearLayout>
 <<levo>>
 {{end}}
-<<levo filename:arca-fragments-1.0.0-beta.jar directory:libs>>
-{{template "arca-fragments-1.0.0-beta.jar"}}
+<<levo filename:arca-fragments-1.0-beta.jar directory:libs>>
+{{template "arca-fragments-1.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-adapters-1.0.0-beta.jar directory:libs>>
-{{template "arca-adapters-1.0.0-beta.jar"}}
+<<levo filename:arca-adapters-1.0-beta.jar directory:libs>>
+{{template "arca-adapters-1.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-monitor-1.0.0-beta.jar directory:libs>>
-{{template "arca-monitor-1.0.0-beta.jar"}}
+<<levo filename:arca-monitor-1.0-beta.jar directory:libs>>
+{{template "arca-monitor-1.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-dispatcher-1.0.0-beta.jar directory:libs>>
-{{template "arca-dispatcher-1.0.0-beta.jar"}}
+<<levo filename:arca-dispatcher-1.0-beta.jar directory:libs>>
+{{template "arca-dispatcher-1.0-beta.jar"}}
 <<levo>>

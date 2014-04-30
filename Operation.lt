@@ -104,15 +104,15 @@ public class Get{{titlecase .Name}}ListTask extends Task<ContentValues[]> {
 }
 <<levo>>
 {{end}}
-<<levo filename:arca-service-1.0.0-beta.jar directory:libs>>
-{{template "arca-service-1.0.0-beta.jar"}}
+<<levo filename:arca-service-1.0-beta.jar directory:libs>>
+{{template "arca-service-1.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-broadcaster-1.0.0-beta.jar directory:libs>>
-{{template "arca-broadcaster-1.0.0-beta.jar"}}
+<<levo filename:arca-broadcaster-1.0-beta.jar directory:libs>>
+{{template "arca-broadcaster-1.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-utils-1.0.0-beta.jar directory:libs>>
-{{template "arca-utils-1.0.0-beta.jar"}}
+<<levo filename:arca-utils-1.0-beta.jar directory:libs>>
+{{template "arca-utils-1.0-beta.jar"}}
 <<levo>>
-<<levo filename:arca-threading-1.0.0-beta.jar directory:libs>>
-{{template "arca-threading-1.0.0-beta.jar"}}
+<<levo filename:arca-threading-1.0-beta.jar directory:libs>>
+{{template "arca-threading-1.0-beta.jar"}}
 <<levo>>

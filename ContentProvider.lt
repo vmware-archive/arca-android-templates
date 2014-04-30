@@ -70,6 +70,6 @@ public class {{titlecase .Name}}Table extends SQLiteTable {
 }
 <<levo>>
 {{end}}
-<<levo filename:arca-provider-1.0.0-beta.jar directory:libs>>
-{{template "arca-provider-1.0.0-beta.jar"}}
+<<levo filename:arca-provider-1.0-beta.jar directory:libs>>
+{{template "arca-provider-1.0-beta.jar"}}
 <<levo>>
