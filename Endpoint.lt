@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -19,7 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.util.Log;
 
 {{range .Models}}!>
-import {{$package}}.models.{{titlecase .Name}}ListResponse;
+import {{$package}}.models.{{titlecase .Name}};
 {{end}}!>
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -35,14 +34,14 @@ public class {{titlecase $project}}Api {
 	}
 
 	{{range .Models}}!>
-	public static {{titlecase .Name}}ListResponse get{{titlecase .Name}}List() throws ClientProtocolException, IOException {
+	public static {{titlecase .Name}}.ListResponse get{{titlecase .Name}}List() throws IOException {
 		final HttpGet request = new HttpGet(Endpoints.{{pluralize .Name | snakecase | upper}});
-		return execute(request, new Gson(), {{titlecase .Name}}ListResponse.class);
+		return execute(request, new Gson(), {{titlecase .Name}}.ListResponse.class);
 	}
 
 	{{end}}!>
 
-	private static <T> T execute(final HttpUriRequest request, final Gson gson, final Type type) throws ClientProtocolException, IOException {
+	private static <T> T execute(final HttpUriRequest request, final Gson gson, final Type type) throws IOException {
 		Log.v("Network", "Request : " + request.getURI());
 		final HttpClient client = new DefaultHttpClient();
 		final HttpResponse response = client.execute(request);
@@ -60,37 +59,31 @@ public class {{titlecase $project}}Api {
 <<levo filename:{{titlecase .Name}}.java directory:src/{{$path}}/models>>
 package {{$package}}.models;
 
+import java.util.ArrayList;
 {{if hasListType .}}import java.util.List;{{end}}!>
 
 import io.pivotal.arca.provider.ColumnName;
-import {{$package}}.datasets.{{titlecase .Name}}Table.ColumnNames;
+import {{$package}}.providers.{{titlecase $project}}ContentProvider.{{titlecase .Name}}Table.Columns;
 import com.google.gson.annotations.SerializedName;
 
 public class {{titlecase .Name}} {{if .Parent}}extends {{.Parent}} {{end}}{
 
-	public static class Fields {
+	public static interface Fields {
 	{{range .Properties}}!>
 		public static final String {{snakecase .RemoteIdentifier | upper}} = "{{.RemoteIdentifier}}";
 	{{end}}!>
 	}
 
+	public static class ListResponse extends ArrayList<{{titlecase .Name}}> {
+		private static final long serialVersionUID = 1L;
+	}
+
 	{{range .Properties}}!>
-	@ColumnName(ColumnNames.{{snakecase .LocalIdentifier | upper}})
+	@ColumnName(Columns.{{snakecase .LocalIdentifier | upper}})
 	@SerializedName(Fields.{{snakecase .RemoteIdentifier | upper}}) 
 	private {{toJavaType .}} m{{titlecase .LocalIdentifier}};
 	
 	{{end}}!>
-}
-<<levo>>
-<<levo filename:{{titlecase .Name}}ListResponse.java directory:src/{{$path}}/models>>
-package {{$package}}.models;
-
-import java.util.ArrayList;
-
-public class {{titlecase .Name}}ListResponse extends ArrayList<{{titlecase .Name}}> {
-
-	private static final long serialVersionUID = 1L;
-
 }
 <<levo>>
 {{end}}

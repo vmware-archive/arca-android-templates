@@ -25,12 +25,13 @@ import io.pivotal.arca.dispatcher.Error;
 import io.pivotal.arca.dispatcher.Query;
 import io.pivotal.arca.dispatcher.QueryResult;
 import io.pivotal.arca.fragments.ArcaAdapterFragment;
+import io.pivotal.arca.fragments.ArcaViewManager;
 import io.pivotal.arca.monitor.ArcaDispatcher;
 import {{$package}}.R;
 import {{$package}}.binders.{{titlecase .Name}}ListViewBinder;
-import {{$package}}.datasets.{{titlecase .Name}}Table;
 import {{$package}}.monitors.{{titlecase .Name}}ListMonitor;
 import {{$package}}.providers.{{titlecase $project}}ContentProvider;
+import {{$package}}.providers.{{titlecase $project}}ContentProvider.{{titlecase .Name}}Table;
 
 public class {{titlecase .Name}}ListFragment extends ArcaAdapterFragment implements OnItemClickListener {
 
@@ -38,10 +39,12 @@ public class {{titlecase .Name}}ListFragment extends ArcaAdapterFragment impleme
 		{{$model := .Name}}!>
 		{{range .Properties}}!>
 			{{if isSqliteType .}}!>
-		new Binding(R.id.{{snakecase $model}}_{{snakecase .LocalIdentifier}}, {{titlecase $model}}Table.Columns.{{snakecase .LocalIdentifier | upper}}.name),
+		new Binding(R.id.{{snakecase $model}}_{{snakecase .LocalIdentifier}}, {{titlecase $model}}Table.Columns.{{snakecase .LocalIdentifier | upper}}),
 			{{end}}!>
 		{{end}}!>
 	});
+
+	private ArcaViewManager mViewManager;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -69,8 +72,18 @@ public class {{titlecase .Name}}ListFragment extends ArcaAdapterFragment impleme
 	public void onViewCreated(final View view, final Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		showLoading();
+		mViewManager = new ArcaViewManager(view);
+		mViewManager.showProgressView();
+
 		load{{pluralize .Name | titlecase}}();
+	}
+
+	@Override
+	public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long id) {
+		// final Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+		// final int columnIndex = cursor.getColumnIndex({{titlecase .Name}}Table.Columns.{{idProp .Properties}});
+		// final String itemId = cursor.getString(columnIndex);
+		// {{titlecase .Name}}Activity.newInstance(getActivity(), itemId);
 	}
 
 	private void load{{pluralize .Name | titlecase}}() {
@@ -81,57 +94,12 @@ public class {{titlecase .Name}}ListFragment extends ArcaAdapterFragment impleme
 
 	@Override
 	public void onContentChanged(final QueryResult result) {
-		final CursorAdapter adapter = getCursorAdapter();
-		if (adapter.getCount() > 0) {
-			showResults();
-		} else if (!result.isSyncing()) {
-			showNoResults();
-		}
+		mViewManager.checkResult(result);
 	}
 
 	@Override
 	public void onContentError(final Error error) {
-		showNoResults();
-		showError(error);
-	}
-
-	private View getLoadingView() {
-		return getView().findViewById(R.id.loading);
-	}
-
-	private View getEmptyView() {
-		return getView().findViewById(R.id.empty);
-	}
-
-	private void showLoading() {
-		getAdapterView().setVisibility(View.INVISIBLE);
-		getLoadingView().setVisibility(View.VISIBLE);
-		getEmptyView().setVisibility(View.INVISIBLE);
-	}
-
-	private void showResults() {
-		getAdapterView().setVisibility(View.VISIBLE);
-		getLoadingView().setVisibility(View.INVISIBLE);
-		getEmptyView().setVisibility(View.INVISIBLE);
-	}
-
-	private void showNoResults() {
-		getAdapterView().setVisibility(View.INVISIBLE);
-		getLoadingView().setVisibility(View.INVISIBLE);
-		getEmptyView().setVisibility(View.VISIBLE);
-	}
-
-	private void showError(final Error error) {
-		final String message = String.format("ERROR: %s", error.getMessage());
-		Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long id) {
-		// final Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-		// final int columnIndex = cursor.getColumnIndex({{titlecase .Name}}Table.Columns.{{idProp .Properties}}.name);
-		// final String itemId = cursor.getString(columnIndex);
-		// {{titlecase .Name}}Activity.newInstance(getActivity(), itemId);
+		mViewManager.checkError(error);
 	}
 }
 <<levo>>
@@ -211,7 +179,7 @@ public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 		android:visibility="gone" />
 
 	<TextView
-		android:id="@+id/empty"
+		android:id="@android:id/empty"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:text="No Results Found"
@@ -219,8 +187,7 @@ public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 		android:visibility="gone" />
 
 	<ProgressBar
-		android:id="@+id/loading"
-		style="@android:style/Widget.ProgressBar.Small"
+		android:id="@android:id/progress"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center" />
@@ -248,15 +215,15 @@ public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 </LinearLayout>
 <<levo>>
 {{end}}
-<<levo filename:arca-fragments-1.0-beta.jar directory:libs>>
-{{template "arca-fragments-1.0-beta.jar"}}
+<<levo filename:arca-fragments-1.0-beta.3.jar directory:libs>>
+{{template "arca-fragments-1.0-beta.3.jar"}}
 <<levo>>
-<<levo filename:arca-adapters-1.0-beta.jar directory:libs>>
-{{template "arca-adapters-1.0-beta.jar"}}
+<<levo filename:arca-adapters-1.0-beta.3.jar directory:libs>>
+{{template "arca-adapters-1.0-beta.3.jar"}}
 <<levo>>
-<<levo filename:arca-monitor-1.0-beta.jar directory:libs>>
-{{template "arca-monitor-1.0-beta.jar"}}
+<<levo filename:arca-monitor-1.0-beta.3.jar directory:libs>>
+{{template "arca-monitor-1.0-beta.3.jar"}}
 <<levo>>
-<<levo filename:arca-dispatcher-1.0-beta.jar directory:libs>>
-{{template "arca-dispatcher-1.0-beta.jar"}}
+<<levo filename:arca-dispatcher-1.0-beta.3.jar directory:libs>>
+{{template "arca-dispatcher-1.0-beta.3.jar"}}
 <<levo>>

@@ -7,9 +7,10 @@ package {{$package}}.providers;
 import android.net.Uri;
 
 import io.pivotal.arca.provider.DatabaseProvider;
-{{range .Models}}!>
-import {{$package}}.datasets.{{titlecase .Name}}Table;
-{{end}}!>
+import io.pivotal.arca.provider.Column;
+import io.pivotal.arca.provider.SQLiteTable;
+import io.pivotal.arca.provider.Unique;
+import io.pivotal.arca.provider.Unique.OnConflict;
 
 public class {{titlecase $project}}ContentProvider extends DatabaseProvider {
 
@@ -35,41 +36,26 @@ public class {{titlecase $project}}ContentProvider extends DatabaseProvider {
 		{{end}}!>
 		return true;
 	}
+	
+	{{range .Models}}
+	public static class {{titlecase .Name}}Table extends SQLiteTable {
+		public static interface Columns extends SQLiteTable.Columns {
+		{{range $index, $prop := .Properties}}!>
+			{{if isSqliteType .}}!>
+				{{if eq $index 0}}!>
+			@Unique(OnConflict.REPLACE)
+				{{end}}!>
+			@Column(Column.Type.{{toSqliteType .}})
+			public static final String {{snakecase .LocalIdentifier | upper}} = "{{.LocalIdentifier}}";
 
-}
-<<levo>>
-{{range .Models}}
-<<levo filename:{{titlecase .Name}}Table.java directory:src/{{$path}}/datasets>>
-package {{$package}}.datasets;
-
-import io.pivotal.arca.provider.Column;
-import io.pivotal.arca.provider.SQLiteTable;
-import io.pivotal.arca.provider.Unique;
-import io.pivotal.arca.provider.Unique.OnConflict;
-
-public class {{titlecase .Name}}Table extends SQLiteTable {
-
-	public static interface ColumnNames {
-	{{range .Properties}}!>
-		{{if isSqliteType .}}!>
-		public static final String {{snakecase .LocalIdentifier | upper}} = "{{.LocalIdentifier}}";
-		{{end}}!>
-	{{end}}!>
-	}
-
-	public static interface Columns extends SQLiteTable.Columns {
-	{{range $index, $prop := .Properties}}!>
-		{{if isSqliteType .}}!>
-			{{if eq $index 0}}!>
-		@Unique(OnConflict.REPLACE)
 			{{end}}!>
-		public static final Column {{snakecase .LocalIdentifier | upper}} = Column.Type.{{toSqliteType .}}.newColumn(ColumnNames.{{snakecase .LocalIdentifier | upper}});
 		{{end}}!>
-	{{end}}!>
+		}
 	}
+	{{end}}
 }
 <<levo>>
-{{end}}
-<<levo filename:arca-provider-1.0-beta.jar directory:libs>>
-{{template "arca-provider-1.0-beta.jar"}}
+
+<<levo filename:arca-provider-1.0-beta.3.jar directory:libs>>
+{{template "arca-provider-1.0-beta.3.jar"}}
 <<levo>>

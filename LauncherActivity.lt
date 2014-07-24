@@ -8,13 +8,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MotionEvent;
 
 import {{$package}}.R;
 
 public class LauncherActivity extends Activity {
 
 	private static final int LAUNCH_MSG = 100;
-	private static final int LAUNCH_DURATION = 2000;
+	private static final int LAUNCH_DURATION = 3000;
 
 	private final LaunchHandler mHandler = new LaunchHandler(this);
 
@@ -34,6 +35,15 @@ public class LauncherActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		mHandler.removeMessages(LAUNCH_MSG);
+	}
+
+	@Override
+	public boolean onTouchEvent(final MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			mHandler.removeMessages(LAUNCH_MSG);
+			mHandler.sendEmptyMessage(LAUNCH_MSG);
+		}
+		return true;
 	}
 
 	public void launch() {
