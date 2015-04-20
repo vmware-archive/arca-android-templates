@@ -1,7 +1,7 @@
 {{$package := .PackageName}}
 {{$path := .PackagePath}}
 {{$features := .Features}}
-<<levo filename:LauncherActivity.java directory:src/{{$path}}/activities>>
+<<levo filename:LauncherActivity.java directory:app/src/main/java/{{$path}}/activities>>
 package {{$package}}.activities;
 
 import android.app.Activity;
@@ -75,7 +75,7 @@ public class LauncherActivity extends Activity {
 	}
 }
 <<levo>>
-<<levo filename:activity_launcher.xml directory:res/layout>>
+<<levo filename:activity_launcher.xml directory:app/src/main/res/layout>>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"

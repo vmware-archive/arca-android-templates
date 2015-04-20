@@ -2,7 +2,7 @@
 {{$project := .ProjectName}}
 {{$path := .PackagePath}}
 {{range .Models}}
-<<levo filename:Get{{titlecase .Name}}ListOperation.java directory:src/{{$path}}/operations>>
+<<levo filename:Get{{titlecase .Name}}ListOperation.java directory:app/src/main/java/{{$path}}/operations>>
 package {{$package}}.operations;
 
 import android.content.ContentResolver;
@@ -56,15 +56,3 @@ public class Get{{titlecase .Name}}ListOperation extends SimpleOperation {
 }
 <<levo>>
 {{end}}
-<<levo filename:arca-service-1.0-beta.3.jar directory:libs>>
-{{template "arca-service-1.0-beta.3.jar"}}
-<<levo>>
-<<levo filename:arca-broadcaster-1.0-beta.3.jar directory:libs>>
-{{template "arca-broadcaster-1.0-beta.3.jar"}}
-<<levo>>
-<<levo filename:arca-utils-1.0-beta.3.jar directory:libs>>
-{{template "arca-utils-1.0-beta.3.jar"}}
-<<levo>>
-<<levo filename:arca-threading-1.0-beta.3.jar directory:libs>>
-{{template "arca-threading-1.0-beta.3.jar"}}
-<<levo>>

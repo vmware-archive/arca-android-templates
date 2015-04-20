@@ -3,7 +3,7 @@
 {{$features := .Features}}
 {{$path := .PackagePath}}
 {{if $features.sync}}
-<<levo filename:{{titlecase $project}}SyncAdapter.java directory:src/{{$path}}/application>>
+<<levo filename:{{titlecase $project}}SyncAdapter.java directory:app/src/main/java/{{$path}}/application>>
 package {{$package}}.application;
 
 import android.accounts.Account;
@@ -17,7 +17,7 @@ import io.pivotal.arca.service.OperationService;
 {{range .Models}}!>
 import {{$package}}.operations.Get{{titlecase .Name}}ListOperation;
 {{end}}!>
-import {{$package}}.providers.{{titlecase $project}}ContentProvider;
+import {{$package}}.application.{{titlecase $project}}ContentProvider;
 
 public class {{titlecase $project}}SyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -34,7 +34,7 @@ public class {{titlecase $project}}SyncAdapter extends AbstractThreadedSyncAdapt
 
 }
 <<levo>>
-<<levo filename:{{titlecase $project}}SyncAdapterService.java directory:src/{{$path}}/application>>
+<<levo filename:{{titlecase $project}}SyncAdapterService.java directory:app/src/main/java/{{$path}}/application>>
 package {{$package}}.application;
 
 import android.app.Service;
@@ -65,16 +65,16 @@ public class {{titlecase $project}}SyncAdapterService extends Service {
 
 }
 <<levo>>
-<<levo filename:syncadapter.xml directory:res/xml>>
+<<levo filename:syncadapter.xml directory:app/src/main/res/xml>>
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
 	android:accountType="{{$package}}.account"
 	android:allowParallelSyncs="false"
-	android:contentAuthority="{{$package}}.providers.{{titlecase $project}}ContentProvider"
+	android:contentAuthority="{{$package}}.application.{{titlecase $project}}ContentProvider"
 	android:isAlwaysSyncable="true"
 	android:supportsUploading="true"
 	android:userVisible="true" />
 <<levo>>
-<<levo filename:{{titlecase $project}}Authenticator.java directory:src/{{$path}}/application>>
+<<levo filename:{{titlecase $project}}Authenticator.java directory:app/src/main/java/{{$path}}/application>>
 package {{$package}}.application;
 
 import android.accounts.AbstractAccountAuthenticator;
@@ -185,7 +185,7 @@ public class {{titlecase $project}}Authenticator extends AbstractAccountAuthenti
 	}
 }
 <<levo>>
-<<levo filename:{{titlecase $project}}AuthenticatorService.java directory:src/{{$path}}/application>>
+<<levo filename:{{titlecase $project}}AuthenticatorService.java directory:app/src/main/java/{{$path}}/application>>
 package {{$package}}.application;
 
 import android.app.Service;
@@ -211,14 +211,14 @@ public class {{titlecase $project}}AuthenticatorService extends Service {
 	}
 }
 <<levo>>
-<<levo filename:authenticator.xml directory:res/xml>>
+<<levo filename:authenticator.xml directory:app/src/main/res/xml>>
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
 	android:accountType="{{$package}}.account"
-	android:icon="@drawable/ic_launcher"
-	android:smallIcon="@drawable/ic_launcher"
+	android:icon="@mipmap/ic_launcher"
+	android:smallIcon="@mipmap/ic_launcher"
 	android:label="@string/app_name" />
 <<levo>>
-<<levo filename:LoginActivity.java directory:src/{{$path}}/activities>>
+<<levo filename:LoginActivity.java directory:app/src/main/java/{{$path}}/activities>>
 package {{$package}}.activities;
 
 import android.accounts.Account;
@@ -232,7 +232,7 @@ import android.view.View;
 
 import {{$package}}.R;
 import {{$package}}.application.{{titlecase $project}}Authenticator;
-import {{$package}}.providers.{{titlecase $project}}ContentProvider;
+import {{$package}}.application.{{titlecase $project}}ContentProvider;
 
 public class LoginActivity extends Activity {
 	
@@ -281,7 +281,7 @@ public class LoginActivity extends Activity {
 	}
 }
 <<levo>>
-<<levo filename:activity_login.xml directory:res/layout>>
+<<levo filename:activity_login.xml directory:app/src/main/res/layout>>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"

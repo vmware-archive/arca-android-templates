@@ -1,8 +1,8 @@
 {{$package := .PackageName}}
 {{$project := .ProjectName}}
 {{$path := .PackagePath}}
-<<levo filename:{{titlecase $project}}ContentProvider.java directory:src/{{$path}}/providers>>
-package {{$package}}.providers;
+<<levo filename:{{titlecase $project}}ContentProvider.java directory:app/src/main/java/{{$path}}/application>>
+package {{$package}}.application;
 
 import android.net.Uri;
 
@@ -14,11 +14,13 @@ import io.pivotal.arca.provider.Unique.OnConflict;
 
 public class {{titlecase $project}}ContentProvider extends DatabaseProvider {
 
-	public static final String AUTHORITY = "{{$package}}.providers.{{titlecase $project}}ContentProvider";
+	public static final String AUTHORITY = {{titlecase $project}}ContentProvider.class.getName();
+
+	private static final Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
 
 	public static final class Uris {
 		{{range .Models}}!>
-		public static final Uri {{pluralize .Name | snakecase | upper}} = Uri.parse("content://" + AUTHORITY + "/" + Paths.{{pluralize .Name | snakecase | upper}});
+		public static final Uri {{pluralize .Name | snakecase | upper}} = Uri.withAppendedPath(BASE_URI, Paths.{{pluralize .Name | snakecase | upper}});
 		{{end}}!>
 	}
 
@@ -54,8 +56,4 @@ public class {{titlecase $project}}ContentProvider extends DatabaseProvider {
 	}
 	{{end}}
 }
-<<levo>>
-
-<<levo filename:arca-provider-1.0-beta.3.jar directory:libs>>
-{{template "arca-provider-1.0-beta.3.jar"}}
 <<levo>>

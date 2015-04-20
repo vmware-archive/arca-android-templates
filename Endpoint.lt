@@ -1,7 +1,7 @@
 {{$package := .PackageName}}
 {{$project := .ProjectName}}
 {{$path := .PackagePath}}
-<<levo filename:{{titlecase $project}}Api.java directory:src/{{$path}}/application>>
+<<levo filename:{{titlecase $project}}Api.java directory:app/src/main/java/{{$path}}/application>>
 package {{$package}}.application;
 
 import java.io.IOException;
@@ -56,14 +56,14 @@ public class {{titlecase $project}}Api {
 }
 <<levo>>
 {{range .Models}}
-<<levo filename:{{titlecase .Name}}.java directory:src/{{$path}}/models>>
+<<levo filename:{{titlecase .Name}}.java directory:app/src/main/java/{{$path}}/models>>
 package {{$package}}.models;
 
 import java.util.ArrayList;
 {{if hasListType .}}import java.util.List;{{end}}!>
 
 import io.pivotal.arca.provider.ColumnName;
-import {{$package}}.providers.{{titlecase $project}}ContentProvider.{{titlecase .Name}}Table.Columns;
+import {{$package}}.application.{{titlecase $project}}ContentProvider.{{titlecase .Name}}Table.Columns;
 import com.google.gson.annotations.SerializedName;
 
 public class {{titlecase .Name}} {{if .Parent}}extends {{.Parent}} {{end}}{
@@ -87,6 +87,3 @@ public class {{titlecase .Name}} {{if .Parent}}extends {{.Parent}} {{end}}{
 }
 <<levo>>
 {{end}}
-<<levo filename:gson-2.2.4.jar directory:libs>>
-{{template "gson-2.2.4.jar"}}
-<<levo>>

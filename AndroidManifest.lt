@@ -1,15 +1,9 @@
 {{$package := .PackageName}}
 {{$project := .ProjectName}}
 {{$features := .Features}}
-<<levo filename:AndroidManifest.xml directory:.>>
+<<levo filename:AndroidManifest.xml directory:app/src/main>>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="{{$package}}"
-	android:versionCode="1"
-	android:versionName="1.0" >
-
-	<uses-sdk
-		android:minSdkVersion="13"
-		android:targetSdkVersion="19" />
+	package="{{$package}}" >
 
 	<uses-permission android:name="android.permission.INTERNET" />
 	{{if $features.sync}}!>
@@ -21,7 +15,7 @@
 
 	<application
 		android:allowBackup="true"
-		android:icon="@drawable/ic_launcher"
+		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme" >
 
@@ -67,15 +61,15 @@
 		<service android:name="io.pivotal.arca.service.OperationService" 
 			android:exported="false" />
 
-		<provider android:name=".providers.{{titlecase $project}}ContentProvider" 
-			android:authorities="{{$package}}.providers.{{titlecase $project}}ContentProvider" 
+		<provider android:name=".application.{{titlecase $project}}ContentProvider" 
+			android:authorities="{{$package}}.application.{{titlecase $project}}ContentProvider" 
 			android:exported="false" />
 
 	</application>
 
 </manifest>
 <<levo>>
-<<levo filename:strings.xml directory:res/values>>
+<<levo filename:strings.xml directory:app/src/main/res/values>>
 <resources>
 
 	<string name="app_name">{{titlecase $project}}</string>
@@ -87,42 +81,68 @@
 	{{if $features.sync}}!>
 	<string name="add_account">Add Account</string>
 	{{end}}!>
-
 </resources>
 <<levo>>>
-<<levo filename:styles.xml directory:res/values>>
+<<levo filename:styles.xml directory:app/src/main/res/values>>
 <resources>
 
-	<style name="AppBaseTheme" parent="android:Theme.Light">
-	</style>
-
-	<style name="AppTheme" parent="AppBaseTheme">
+	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 	</style>
 
 </resources>
 <<levo>>>
-<<levo filename:styles.xml directory:res/values-v11>>
-<resources>
-
-	<style name="AppBaseTheme" parent="android:Theme.Holo.Light">
-	</style>
-
-</resources>
+<<levo filename:settings.gradle directory:.>>
+include ':app'
 <<levo>>>
-<<levo filename:styles.xml directory:res/values-v14>>
-<resources>
+<<levo filename:build.gradle directory:.>>
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+    }
+}
 
-	<style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-	</style>
-
-</resources>
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
 <<levo>>>
-<<levo filename:ic_launcher.png directory:res/drawable-hdpi>>
+<<levo filename:build.gradle directory:app>>
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "{{$package}}"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+	compile 'com.google.code.gson:gson:2.3'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile('io.pivotal:arca:1.0-beta.3') {
+        exclude group: 'com.android.support'
+    }
+}
+<<levo>>>
+<<levo filename:ic_launcher.png directory:app/src/main/res/mipmap-hdpi>>
 {{template "ic_launcher-hdpi.png"}}
 <<levo>>
-<<levo filename:ic_launcher.png directory:res/drawable-mdpi>>
+<<levo filename:ic_launcher.png directory:app/src/main/res/mipmap-mdpi>>
 {{template "ic_launcher-mdpi.png"}}
 <<levo>>
-<<levo filename:ic_launcher.png directory:res/drawable-xhdpi>>
+<<levo filename:ic_launcher.png directory:app/src/main/res/mipmap-xhdpi>>
 {{template "ic_launcher-xhdpi.png"}}
+<<levo>>
+<<levo filename:ic_launcher.png directory:app/src/main/res/mipmap-xxhdpi>>
+{{template "ic_launcher-xxhdpi.png"}}
 <<levo>>

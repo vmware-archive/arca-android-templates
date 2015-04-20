@@ -2,7 +2,7 @@
 {{$project := .ProjectName}}
 {{$path := .PackagePath}}
 {{range .Models}}
-<<levo filename:{{titlecase .Name}}ListFragment.java directory:src/{{$path}}/fragments>>
+<<levo filename:{{titlecase .Name}}ListFragment.java directory:app/src/main/java/{{$path}}/fragments>>
 package {{$package}}.fragments;
 
 import java.util.Arrays;
@@ -30,8 +30,8 @@ import io.pivotal.arca.monitor.ArcaDispatcher;
 import {{$package}}.R;
 import {{$package}}.binders.{{titlecase .Name}}ListViewBinder;
 import {{$package}}.monitors.{{titlecase .Name}}ListMonitor;
-import {{$package}}.providers.{{titlecase $project}}ContentProvider;
-import {{$package}}.providers.{{titlecase $project}}ContentProvider.{{titlecase .Name}}Table;
+import {{$package}}.application.{{titlecase $project}}ContentProvider;
+import {{$package}}.application.{{titlecase $project}}ContentProvider.{{titlecase .Name}}Table;
 
 public class {{titlecase .Name}}ListFragment extends ArcaAdapterFragment implements OnItemClickListener {
 
@@ -103,7 +103,7 @@ public class {{titlecase .Name}}ListFragment extends ArcaAdapterFragment impleme
 	}
 }
 <<levo>>
-<<levo filename:{{titlecase .Name}}ListViewBinder.java directory:src/{{$path}}/binders>>
+<<levo filename:{{titlecase .Name}}ListViewBinder.java directory:app/src/main/java/{{$path}}/binders>>
 package {{$package}}.binders;
 
 import android.database.Cursor;
@@ -129,7 +129,7 @@ public class {{titlecase .Name}}ListViewBinder implements ViewBinder {
 	}
 }
 <<levo>>
-<<levo filename:{{titlecase .Name}}ListMonitor.java directory:src/{{$path}}/monitors>>
+<<levo filename:{{titlecase .Name}}ListMonitor.java directory:app/src/main/java/{{$path}}/monitors>>
 package {{$package}}.monitors;
 
 import android.content.Context;
@@ -166,7 +166,7 @@ public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 	}
 }
 <<levo>>
-<<levo filename:fragment_{{snakecase .Name}}_list.xml directory:res/layout>>
+<<levo filename:fragment_{{snakecase .Name}}_list.xml directory:app/src/main/res/layout>>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent" >
@@ -194,7 +194,7 @@ public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 
 </FrameLayout>
 <<levo>>
-<<levo filename:list_item_{{snakecase .Name}}.xml directory:res/layout>>
+<<levo filename:list_item_{{snakecase .Name}}.xml directory:app/src/main/res/layout>>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
@@ -215,15 +215,3 @@ public class {{titlecase .Name}}ListMonitor extends AbstractRequestMonitor {
 </LinearLayout>
 <<levo>>
 {{end}}
-<<levo filename:arca-fragments-1.0-beta.3.jar directory:libs>>
-{{template "arca-fragments-1.0-beta.3.jar"}}
-<<levo>>
-<<levo filename:arca-adapters-1.0-beta.3.jar directory:libs>>
-{{template "arca-adapters-1.0-beta.3.jar"}}
-<<levo>>
-<<levo filename:arca-monitor-1.0-beta.3.jar directory:libs>>
-{{template "arca-monitor-1.0-beta.3.jar"}}
-<<levo>>
-<<levo filename:arca-dispatcher-1.0-beta.3.jar directory:libs>>
-{{template "arca-dispatcher-1.0-beta.3.jar"}}
-<<levo>>
